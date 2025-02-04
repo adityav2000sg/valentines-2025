@@ -32,11 +32,6 @@ button:hover {
     transform: scale(1.1);
 }
 
-.puzzle-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    max-width: 400px;
-    margin-top: 20px;
+.sprite-heart-container div {
+    text-align: center;
 }

@@ -14,7 +14,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     nextButton.addEventListener('click', () => {
         document.getElementById('story').style.display = 'none';
-        document.getElementById('heart-display').style.display = 'flex';
+        const heartDisplay = document.getElementById('heart-display');
+        if (!heartDisplay) {
+            console.error('Element with id "heart-display" is missing in the HTML.');
+            return;
+        }
+        heartDisplay.style.display = 'flex';
         createHeart();
     });
 
