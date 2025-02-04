@@ -5,8 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const yesButton = document.getElementById('yes-button');
     const noButton = document.getElementById('no-button');
     const music = document.getElementById('background-music');
-    const puzzleContainer = document.querySelector('.puzzle-container');
-    let puzzleCompleted = false;
+    const displayArea = document.querySelector('.sprite-heart-container');
 
     startButton.addEventListener('click', () => {
         document.getElementById('intro').style.display = 'none';
@@ -16,54 +15,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     nextButton.addEventListener('click', () => {
         document.getElementById('story').style.display = 'none';
-        document.getElementById('game').style.display = 'flex';
-        generatePuzzle();
+        document.getElementById('heart-display').style.display = 'flex';
+        createHeart();
     });
 
     revealButton.addEventListener('click', () => {
-        if (puzzleCompleted) {
-            document.getElementById('game').style.display = 'none';
-            document.getElementById('finale').style.display = 'flex';
-        } else {
-            alert('Complete the puzzle first!');
-        }
+        document.getElementById('heart-display').style.display = 'none';
+        document.getElementById('finale').style.display = 'flex';
     });
 
-    function generatePuzzle() {
-        puzzleContainer.innerHTML = '';
-        const pieces = [
-            { emoji: '❤️', correctIndex: 0 },
-            { emoji: '💖', correctIndex: 1 },
-            { emoji: '💕', correctIndex: 2 },
-            { emoji: '💞', correctIndex: 3 }
+    function createHeart() {
+        const heartPattern = [
+            ".....❤️❤️.....",
+            "...❤️❤️❤️❤️...",
+            "..❤️❤️❤️❤️❤️❤️..",
+            ".❤️❤️❤️❤️❤️❤️❤️❤️.",
+            "❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️",
+            ".❤️❤️❤️❤️❤️❤️❤️❤️.",
+            "..❤️❤️❤️❤️❤️❤️..",
+            "...❤️❤️❤️❤️...",
+            ".....❤️❤️....."
         ];
-        pieces.sort(() => Math.random() - 0.5);
 
-        pieces.forEach((piece, index) => {
-            const btn = document.createElement('button');
-            btn.textContent = piece.emoji;
-            btn.dataset.index = index;
-            btn.classList.add('puzzle-piece');
-            puzzleContainer.appendChild(btn);
+        heartPattern.forEach(row => {
+            const rowDiv = document.createElement('div');
+            rowDiv.textContent = row;
+            rowDiv.style.textAlign = 'center';
+            rowDiv.style.fontSize = '2rem';
+            displayArea.appendChild(rowDiv);
         });
-
-        puzzleContainer.addEventListener('click', handlePuzzleClick);
-    }
-
-    function handlePuzzleClick(event) {
-        if (!event.target.classList.contains('puzzle-piece')) return;
-
-        const buttons = Array.from(puzzleContainer.children);
-        const currentOrder = buttons.map(btn => btn.textContent);
-        const correctOrder = ['❤️', '💖', '💕', '💞'];
-
-        if (JSON.stringify(currentOrder) === JSON.stringify(correctOrder)) {
-            puzzleCompleted = true;
-            revealButton.disabled = false;
-            alert('Puzzle solved! Click Reveal Surprise!');
-        } else {
-            alert('Keep trying to arrange the pieces!');
-        }
     }
 
     yesButton.addEventListener('click', () => {
