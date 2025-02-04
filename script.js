@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const startButton = document.getElementById('start-button');
     const nextButton = document.getElementById('next-button');
-    const revealButton = document.getElementById('reveal-button');
     const yesButton = document.getElementById('yes-button');
     const noButton = document.getElementById('no-button');
     const music = document.getElementById('background-music');
@@ -19,11 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
         createHeart();
     });
 
-    revealButton.addEventListener('click', () => {
-        document.getElementById('heart-display').style.display = 'none';
-        document.getElementById('finale').style.display = 'flex';
-    });
-
     function createHeart() {
         const heartPattern = [
             ".....❤️❤️.....",
@@ -37,13 +31,24 @@ document.addEventListener('DOMContentLoaded', () => {
             ".....❤️❤️....."
         ];
 
-        heartPattern.forEach(row => {
+        heartPattern.forEach((row, index) => {
             const rowDiv = document.createElement('div');
             rowDiv.textContent = row;
             rowDiv.style.textAlign = 'center';
-            rowDiv.style.fontSize = '2rem';
+            rowDiv.style.fontSize = `${2 + index * 0.5}rem`;
+            rowDiv.style.animation = `fadeIn 1s ease ${index * 0.2}s forwards`;
+            rowDiv.style.opacity = 0;
             displayArea.appendChild(rowDiv);
         });
+
+        const questionDiv = document.createElement('div');
+        questionDiv.textContent = "Will You Be My Valentine? 💖";
+        questionDiv.style.textAlign = 'center';
+        questionDiv.style.fontSize = '3rem';
+        questionDiv.style.marginTop = '20px';
+        questionDiv.style.animation = 'fadeIn 2s ease 2s forwards';
+        questionDiv.style.opacity = 0;
+        displayArea.appendChild(questionDiv);
     }
 
     yesButton.addEventListener('click', () => {
@@ -53,4 +58,13 @@ document.addEventListener('DOMContentLoaded', () => {
     noButton.addEventListener('click', () => {
         alert('Oh no! 😢 But I still love you!');
     });
+
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    `;
+    document.head.appendChild(style);
 });
